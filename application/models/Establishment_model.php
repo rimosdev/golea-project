@@ -101,34 +101,6 @@ class Establishment_Model extends CI_Model {
                 return $ret;
         }
 
-        function getPictures($conditions='', $limit=0)
-        {
-                $ret= false;  //variable que almacena el valor a retornar
-                //REalizando el inner join para listar las categorias del sitio actual solamente
-                $this->db->select('*');   
-
-                $this->db->from('picture as pict');
-                $this->db->order_by("inserted", "desc");
-
-                if($conditions != '')
-                {
-                        //adicionando las condiciones establecidas al objeto db
-                        $this->db->where($conditions);
-                }
-
-                if($limit>0)
-                        $this->db->limit($limit);
-
-                $query = $this->db->get();
-
-                if($query->num_rows() > 0)
-                        $ret = $query->result();
-
-                //liberando los datos de la consulta SQL
-                $query->free_result();
-                return $ret;
-        }
-
         public function getCompletes($conditions='', $limit=0)
         {
                 $ret= false;  //variable que almacena el valor a retornar
@@ -157,6 +129,61 @@ class Establishment_Model extends CI_Model {
                 //liberando los datos de la consulta SQL
                 $query->free_result();
                 return $ret;
+        }
+
+        function getPictures($conditions='', $limit=0)
+        {
+                $ret= false;  //variable que almacena el valor a retornar
+                //REalizando el inner join para listar las categorias del sitio actual solamente
+                $this->db->select('*');   
+
+                $this->db->from('picture as pict');
+                $this->db->order_by("inserted", "desc");
+
+                if($conditions != '')
+                {
+                        //adicionando las condiciones establecidas al objeto db
+                        $this->db->where($conditions);
+                }
+
+                if($limit>0)
+                        $this->db->limit($limit);
+
+                $query = $this->db->get();
+
+                if($query->num_rows() > 0)
+                        $ret = $query->result();
+
+                //liberando los datos de la consulta SQL
+                $query->free_result();
+                return $ret;
+        }
+
+        public function savePictures($establishment_id, $url, $description)
+        {
+                
+                    //Si el email no esta registrado, se procede a registrarlo
+                    $data = array(
+                       'establishment_id' => $establishment_id,
+                       'url' => $url,
+                       'description' => $description
+                    );
+
+                    $this->db->set('inserted', 'NOW()', FALSE);
+
+                    $this->db->insert('establishment', $data); 
+
+                    //check if client inserted
+                    if($insert_id = $this->db->insert_id())
+                    {
+                        return $insert_id;
+                    }
+                    else
+                    {
+                        $this->msg = ___("No se pudo registrar foto");
+                        return false;
+                    }
+
         }
 
 }

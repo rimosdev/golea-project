@@ -1,10 +1,16 @@
 <?php
-class Users_Model extends CI_Model {
+class User_Model extends CI_Model {
 
         public function __construct()
         {
                 // Call the CI_Model constructor
                 parent::__construct();
+                $this->load->database();
+        }
+
+        public function getUser($id)
+        {
+            return $this->listUsers(" user_id='$id'",1);
         }
 
         public function listUsers($conditions = '',$limit = 0)
@@ -49,7 +55,7 @@ class Users_Model extends CI_Model {
                        'rol_id' => $rol_id,
                        'district_id' => $district_id,
                        'email' => $email,
-                       'user_name' => $username,
+                       'user_name' => $user_name,
                        'password' => $password,
                        'first_name' => $first_name,
                        'last_name' => $last_name,

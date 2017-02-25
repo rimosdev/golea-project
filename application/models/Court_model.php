@@ -1,5 +1,5 @@
 <?php
-class Courts_Model extends CI_Model {
+class Court_Model extends CI_Model {
 
         public function __construct()
         {
@@ -22,7 +22,7 @@ class Courts_Model extends CI_Model {
                 }
                 else
                 {
-                    $this->db->order_by("inserted", "desc");
+                        $this->db->order_by("inserted", "desc");
                 }
 
                 if($conditions != '')
@@ -67,7 +67,7 @@ class Courts_Model extends CI_Model {
                     }
                     else
                     {
-                        $this->msg = ___("No se pudo registrar establecimiento");
+                        $this->msg = ___("No se pudo registrar cancha");
                         return false;
                     }
 
