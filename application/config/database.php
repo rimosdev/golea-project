@@ -75,12 +75,34 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
+	'hostname' => 'mysql.hostinger.es',
+	'username' => 'u423757296_golea',
+	'password' => 'golea1234',
+	'database' => 'u423757296_golea',
+	'dbdriver' => 'mysqli', 
+	'dbprefix' => 'gl_',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['default'] = array(
+	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
 	'database' => 'bd_golea',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => 'GL_',
+	'dbdriver' => 'mysqli', 
+	'dbprefix' => 'gl_',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,

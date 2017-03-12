@@ -17,7 +17,7 @@ class User_Model extends CI_Model {
         {
                 $ret= false;  //variable que almacena el valor a retornar
                 //REalizando el inner join para listar las categorias del sitio actual solamente
-                $this->db->select('*');   
+                $this->db->select('user_id, rol_id,district_id,email,user_name,first_name,last_name,birth_date,avatar, status');   
 
                 $this->db->from('user  as u');
                 $this->db->order_by("inserted", "desc");
@@ -41,7 +41,7 @@ class User_Model extends CI_Model {
                 return $ret;
         }
 
-        public function insert($rol_id, $district_id, $email='', $user_name='', $password='', $first_name='', $last_name='', $birth_date='', $avatar='')
+        public function insert($rol_id, $district_id, $email='', $user_name='', $password='', $first_name='', $last_name='', $birth_date='', $avatar='', $oauth_id='')
         {
                 if($cliente = $this->listUsers(" email = '" . $email . "'"))
                 {
@@ -60,7 +60,8 @@ class User_Model extends CI_Model {
                        'first_name' => $first_name,
                        'last_name' => $last_name,
                        'birth_date' => $birth_date,
-                       'avatar' => $avatar
+                       'avatar' => $avatar,
+                       'status' => '1'
                     );
 
 

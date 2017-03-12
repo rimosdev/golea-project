@@ -47,36 +47,21 @@ class User extends REST_Controller {
         }
     }
 
-    function user_put()
+    function insert_put()
     {
+    	echo "get: ".$this->input->get("email")."<br>";
+    	echo "put: ".$this->input->get("email")."<br>";
+    	$this->put("email")."<br>";
     	if (filter_var($this->input->get("email"), FILTER_VALIDATE_EMAIL))
 		{
 			//recivo la data enviada por metodo post;
-			if($this->user_model->insert($this->input->post("nombre",TRUE), $this->input->post("apellido",TRUE), $this->input->post("correo",TRUE),
-					$this->input->post("genero",TRUE), 1, $this->input->post("idocupacion",TRUE), sha1($this->input->post("_password",TRUE)),
-					$id_fb = $this->input->post("if_fb",TRUE)))
-			{
-				if($id_fb)
-					$this->login_fb_ajax();
-				else
-				{
-					if($login = $this->clientes_model->login($this->input->post("correo",TRUE), sha1($this->input->post("_password",TRUE))))
-					{
-						$this->session->set_userdata('bj_cliente', $login);
-						$ret = array("estado"=>"1","msg"=>"Inicio de sesión correcto");
-						//El usuario debe heredar los datos que ya tenía cargados en la cookie, luego esta cookie debe ser eliminada
-						$this->heredaCookies();
-					}
-					else
-					{
-						$ret = array("estado"=>"0","msg"=>"Datos de inicio de sesión incorrectos");
-					}
-				}
-				$ret = array("estado" => "1", "msg" => ___("Registro satisfactorio"));
+			if($user_id = $this->user_model->insert($this->input->get("rol"), $this->input->get("district"), $this->input->get("email"), $this->input->get("user_name"), $this->input->get("password", TRUE), $this->input->get("first_name"), $this->input->get("last_name"), $this->input->get("birth_date"), $this->input->get("avatar")))
+			{				
+				$ret = array("estado" => "1", "msg" => ___("Registro satisfactorio"), "user_id" => $user_id);
 			}
 			else
 			{
-				$ret = array("estado" => "0", "msg" => "Error: " . $this->clientes_model->msg);
+				$ret = array("estado" => "0", "msg" => "Error: " . $this->user_model->msg);
 			}
 		}
 		else
@@ -85,8 +70,28 @@ class User extends REST_Controller {
 		}
 		echo json_encode($ret);
     }
- 
-     
+
+    function __insert_put()
+    {
+    	if (filter_var($this->put("email"), FILTER_VALIDATE_EMAIL))
+		{
+			//recivo la data enviada por metodo post;
+			if($user_id = $this->user_model->insert($this->put("rol"), $this->put("district"), $this->put("email"), $this->put("user_name"), $this->put("password", TRUE), $this->put("first_name"), $this->put("last_name"), $this->put("birth_date"), $this->put("avatar")))
+			{				
+				$ret = array("estado" => "1", "msg" => ___("Registro satisfactorio"), "user_id" => $user_id);
+			}
+			else
+			{
+				$ret = array("estado" => "0", "msg" => "Error: " . $this->user_model->msg);
+			}
+		}
+		else
+		{
+				$ret = array("estado" => "0", "msg" => ___("Correo electrónico inválido"));
+		}
+		echo json_encode($ret);
+    }
+      
     function user_post()
     {
         $result = $this->user_model->update( $this->post('id'), array(
